@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<title>Мен Отаным үшін не істей аламын?</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(#e3f2fd, #ffffff);
+    text-align: center;
+    padding: 20px;
+}
+.game {
+    background: white;
+    max-width: 520px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: #4caf50;
+    color: white;
+}
+button:hover {
+    background: #43a047;
+}
+#musicToggle {
+    background: #2196f3;
+}
+#musicToggle:hover {
+    background: #1976d2;
+}
+.score {
+    font-size: 20px;
+    margin-top: 10px;
+}
+.medal {
+    font-size: 80px;
+    margin: 15px 0;
+}
+img.question-image {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🇰🇿 Мен Отаным үшін не істей аламын?</h1>
+
+<div class="game" id="game">
+
+    <img id="qImage" class="question-image" src="20.jpeg">
+
+    <p id="question"></p>
+
+    <button onclick="answer(0)" id="b0"></button>
+    <button onclick="answer(1)" id="b1"></button>
+    <button onclick="answer(2)" id="b2"></button>
+
+    <div class="score">⭐ Балл: <span id="score">0</span></div>
+
+    <button id="musicToggle" onclick="toggleMusic()">🎵 Музыканы қосу</button>
+</div>
+
+<!-- 🎵 МУЗЫКА -->
+<audio id="bgMusic" loop>
+    <source src="oo.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+let index = 0;
+let score = 0;
+
+const data = [
+{
+q: "Аулада қоқыс жатыр. Не істейсің?",
+img: "20.jpeg",
+a: ["Өтіп кетемін", "Қоқысты жинаймын", "Тағы қоқыс тастаймын"],
+c: 1
+},
+{
+q: "Мектеп мүлкіне қалай қарайсың?",
+img: "21.jpeg",
+a: ["Сындырамын", "Ұқыпты қолданамын", "Елемеймін"],
+c: 1
+},
+{
+q: "Қарт адамды көрсең не істейсің?",
+img: "22.jpeg",
+a: ["Көмектесемін", "Күлемін", "Елемеймін"],
+c: 0
+},
+{
+q: "Табиғатты қорғау үшін не істейсің?",
+img: "23.jpeg",
+a: ["Ағаш отырғызамын", "Бұтамын", "Қоқыс тастаймын"],
+c: 0
+},
+{
+q: "Мемлекеттік Туға қалай қарайсың?",
+img: "24.jpeg",
+a: ["Құрметтеймін", "Жыртамын", "Елемеймін"],
+c: 0
+},
+{
+q: "Оқу — Отанға қалай көмектеседі?",
+img: "25.jpeg",
+a: ["Еш көмегі жоқ", "Білімді болуға көмектеседі", "Кедергі жасайды"],
+c: 1
+}
+];
+
+function load() {
+    document.getElementById("question").innerText = data[index].q;
+    document.getElementById("b0").innerText = data[index].a[0];
+    document.getElementById("b1").innerText = data[index].a[1];
+    document.getElementById("b2").innerText = data[index].a[2];
+    document.getElementById("qImage").src = data[index].img;
+}
+
+function answer(x) {
+    if (x === data[index].c) score += 2;
+    document.getElementById("score").innerText = score;
+    index++;
+    if (index < data.length) {
+        load();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    let medal = "🥉";
+    let text = "Жас патриот!";
+
+    if (score >= 10) {
+        medal = "🥇";
+        text = "Үздік патриот!";
+    } else if (score >= 6) {
+        medal = "🥈";
+        text = "Белсенді патриот!";
+    }
+
+    document.getElementById("game").innerHTML =
+        "<h2>🎉 Ойын аяқталды!</h2>" +
+        "<div class='medal'>" + medal + "</div>" +
+        "<h3>" + text + "</h3>" +
+        "<p>⭐ Жиналған балл: " + score + "</p>";
+}
+
+function toggleMusic() {
+    const music = document.getElementById("bgMusic");
+    const btn = document.getElementById("musicToggle");
+
+    if (music.paused) {
+        music.play();
+        btn.innerText = "🔇 Музыканы өшіру";
+    } else {
+        music.pause();
+        btn.innerText = "🎵 Музыканы қосу";
+    }
+}
+
+// бірінші сұрақ
+load();
+</script>
+
+</body>
+</html>
